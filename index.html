@@ -294,10 +294,14 @@
         return Number.MAX_SAFE_INTEGER;
     }
 
-    function updateItemList(){
-      const selectedProf = profSelect.value;
-      const currentXp = parseInt(currentXpInput.value) || 0;
-      const currentLevel = getLevelFromXp(currentXp);
+    // ...
+    function updateItemList(){
+      const selectedProf = profSelect.value;
+      // NOVO CÓDIGO: Limpa pontos e vírgulas antes de converter para número
+      const currentXpString = currentXpInput.value.replace(/[\.,]/g, '');
+      const currentXp = parseInt(currentXpString) || 0;
+      const currentLevel = getLevelFromXp(currentXp);
+// ...
     
       itemSelect.innerHTML = '';
       let items = [];
@@ -466,9 +470,13 @@
     }
 
 
-    function calculate(){
-      const currentXp = parseInt(document.getElementById('currentXp').value) || 0;
-      const targetLvl = parseInt(document.getElementById('targetLvl').value) || 1;
+    // ...
+    function calculate(){
+      // NOVO CÓDIGO: Limpa pontos e vírgulas antes de converter para número
+      const currentXpString = document.getElementById('currentXp').value.replace(/[\.,]/g, '');
+      const currentXp = parseInt(currentXpString) || 0;
+      const targetLvl = parseInt(document.getElementById('targetLvl').value) || 1;
+// ...
       const efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
       const profKey = profSelect.value;
       const itemName = itemSelect.value;
