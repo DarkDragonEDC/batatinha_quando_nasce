@@ -1855,7 +1855,7 @@ const allData = {
                 "Requirement 1": "Bone Charcoal",
                 "Requirement 1 Amount": 5,
                 "Requirement 2": "Advanced Solution",
-                "Requirement 2 Amount": 2
+                "Requirement 2 Amount": 20
             },
             {
                 "Name": "Tough Leather Gloves",
@@ -1868,7 +1868,7 @@ const allData = {
                 "Requirement 1": "Bone Charcoal",
                 "Requirement 1 Amount": 5,
                 "Requirement 2": "Advanced Solution",
-                "Requirement 2 Amount": 2
+                "Requirement 2 Amount": 20
             },
             {
                 "Name": "Tough Leather Hat",
@@ -1881,7 +1881,7 @@ const allData = {
                 "Requirement 1": "Bone Charcoal",
                 "Requirement 1 Amount": 5,
                 "Requirement 2": "Advanced Solution",
-                "Requirement 2 Amount": 2
+                "Requirement 2 Amount": 20
             },
             {
                 "Name": "Tough Leather Bow",
@@ -6259,3 +6259,4 @@ const allData = {
         ]
     }
 };
+
