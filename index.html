@@ -1,4 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Switch Calculadoras</title>
+<style>
+  #calc1, #calc2 { display: none; }
+</style>
+</head>
+<body>
+
+<button onclick="trocar()">Switch between Pet Xp / Craft Xp</button>
+
+<div id="calc1">
+  <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -590,5 +604,202 @@
     }
     tryPopulate();
   </script>
+</body>
+</html>
+</div>
+
+<div id="calc2">
+  <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calculadora de Pet</title>
+
+  <style>
+:root{
+  --bg:#f3f6fb;
+  --panel:#0f1724;
+  --muted:#9aa3b2;
+  --accent:#7c3aed;
+  --glass: rgba(255,255,255,0.03);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background: linear-gradient(180deg,#071124 0%, #081424 60%);
+  color:#e6eef8;
+  padding:18px;
+  -webkit-font-smoothing:antialiased;
+  text-align:center;
+}
+
+.container{
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  background: transparent;
+}
+
+h2{
+  color:#7c3aed;
+  margin-bottom:20px;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:600;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  color:#dbeafe;
+  text-align:left;
+}
+
+input, select{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color:#e6eef8;
+  font-size:1rem;
+  outline:none;
+  text-align:center;
+  margin-bottom:14px;
+}
+
+button{
+  width:100%;
+  background:linear-gradient(180deg,var(--accent), #5b21b6);
+  color:white;
+  padding:14px;
+  border-radius:10px;
+  border:0;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(124,58,237,0.18);
+  font-size:1.05rem;
+}
+button:active{transform:translateY(1px)}
+
+.res{
+  margin-top:20px;
+  padding:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.03);
+  border-radius:12px;
+  font-weight:bold;
+  line-height:1.6;
+  color:#dbeafe;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+}
+
+@media (max-width: 360px){
+  input, select, button{
+    padding:10px;
+    font-size:0.9rem;
+  }
+}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h2>Pet Calculator</h2>
+
+    <label>Current XP:</label>
+    <input id="xpAtual" type="text" placeholder="Type your pet's current XP" />
+
+    <label>Desired Level:</label>
+    <input id="lvlDesejado" type="number" placeholder="Type the desired level" />
+
+    <label>Pet Rarity:</label>
+    <select id="raridade">
+      <option value="mitico">Mythic</option>
+      <option value="lendario">Legendary</option>
+    </select>
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div class="res" id="saida"></div>
+
+  </div>
+
+<script>
+// níveis 1..99
+const xpLevels = [0,1,192,324,480,645,820,1005,1200,1407,1735,2082,2449,2838,3249,3684,4144,4631,5146,5691,6460,7281,8160,9101,10109,11191,12353,13603,14949,16400,18455,20675,23076,25675,28492,31549,34870,38482,42415,46702,52583,58662,64933,71390,78026,84833,91802,98923,106186,114398,123502,132734,142077,151515,161029,170602,180216,189852,199491,209115,220417,232945,246859,262341,279598,298871,320434,344603,371744,402278,441971,486789,537487,594941,660170,734360,818896,915396,1025752,1152182,1316749,1492835,1681248,1882849,2098562,2329375,2576345,2840603,3123359,3425908,3749636,4269287,4827911,5428432,6073992,6767969,7513995,8315973,9178099];
+
+function getLevel(xp){
+  let lvl = 1;
+  for(let i=1;i<xpLevels.length;i++){
+    if(xp >= xpLevels[i]) lvl = i+1;
+  }
+  return lvl;
+}
+
+const efMitico = [1.00,1.12,1.25,1.37,1.49,1.61,1.74,1.86,1.98,2.10,2.22,2.35,2.47,2.59,2.71,2.84,2.96,3.08,3.20,3.33,3.45,3.57,3.69,3.82,3.94,4.06,4.18,4.31,4.43,4.55,4.67,4.80,4.92,5.04,5.16,5.29,5.41,5.53,5.65,5.78,5.90,6.02,6.14,6.27,6.39,6.51,6.63,6.76,6.88,7.00,7.12,7.25,7.37,7.49,7.61,7.74,7.86,7.98,8.10,8.22,8.35,8.47,8.59,8.71,8.84,8.96,9.08,9.20,9.33,9.45,9.57,9.69,9.82,9.94,10.06,10.18,10.31,10.43,10.55,10.67,10.80,10.92,11.04,11.16,11.29,11.41,11.53,11.65,11.78,11.90,12.02,12.14,12.27,12.39,12.51,12.63,12.76,12.88,13.00];
+
+const efLendario = [1.00,1.11,1.22,1.34,1.45,1.56,1.67,1.79,1.90,2.01,2.12,2.24,2.35,2.46,2.57,2.69,2.80,2.91,3.02,3.14,3.25,3.36,3.47,3.59,3.70,3.81,3.92,4.04,4.15,4.26,4.37,4.49,4.60,4.71,4.82,4.94,5.05,5.16,5.27,5.39,5.50,5.61,5.72,5.84,5.95,6.06,6.17,6.29,6.40,6.51,6.63,6.74,6.85,6.96,7.08,7.19,7.30,7.41,7.53,7.64,7.75,7.86,7.98,8.09,8.20,8.31,8.43,8.54,8.65,8.76,8.88,8.99,9.10,9.21,9.33,9.44,9.55,9.66,9.78,9.89,10.00,10.11,10.23,10.34,10.45,10.56,10.68,10.79,10.90,11.01,11.13,11.24,11.35,11.46,11.58,11.69,11.80,11.91,12.00];
+
+function calcular(){
+  const xpStr = document.getElementById('xpAtual').value;
+  const xpAtual = Number(xpStr.replace(/\./g, '').replace(',', '.'));
+  const lvlDesejado = Number(document.getElementById('lvlDesejado').value);
+
+  const lvlAtual = getLevel(xpAtual);
+  const xpMeta = xpLevels[lvlDesejado-1] || 0;
+  const faltaXP = xpMeta - xpAtual;
+  const gold = faltaXP * 3.20;
+  const comidas = Math.ceil(gold / 30);
+
+  const raridade = document.getElementById('raridade').value;
+  const tabela = raridade === 'mitico' ? efMitico : efLendario;
+  const efAtual = tabela[lvlAtual - 1] || 0;
+  const efDesejada = tabela[lvlDesejado - 1] || 0;
+
+  document.getElementById('saida').innerHTML = `
+    Current Level: ${lvlAtual.toLocaleString('pt-BR')}<br>
+    Current Efficiency: ${efAtual.toLocaleString('pt-BR')}<br>
+    Efficiency at Desired Level: ${efDesejada.toLocaleString('pt-BR')}<br><br>
+    
+    XP Needed to Reach Target: ${faltaXP.toLocaleString('pt-BR')}<br>
+    Required Gold: ${gold.toLocaleString('pt-BR', {minimumFractionDigits: 2})}<br>
+    Food Needed: ${comidas.toLocaleString('pt-BR')}
+  `;
+}
+</script>
+
+</body>
+</html>
+
+</div>
+
+<script>
+let atual = 1;
+
+function trocar() {
+  if(atual === 1){
+    document.getElementById('calc1').style.display = 'none';
+    document.getElementById('calc2').style.display = 'block';
+    atual = 2;
+  } else {
+    document.getElementById('calc1').style.display = 'block';
+    document.getElementById('calc2').style.display = 'none';
+    atual = 1;
+  }
+}
+
+// inicia mostrando a primeira
+document.getElementById('calc1').style.display = 'block';
+</script>
+
 </body>
 </html>
