@@ -168,9 +168,14 @@
         </div>
 
         <div class="grid-two">
-          <div class="form-row">
-            <label for="currentXp">Current XP</label>
-            <input id="currentXp" type="number" min="0" value="" placeholder="Enter your current XP" oninput="updateItemList()" aria-label="Current XP">
+          <div class="grid-two"> <div class="form-row">
+              <label for="currentLevelInput">Current Level</label>
+              <input id="currentLevelInput" type="number" min="1" value="1" placeholder="Lvl" oninput="updateItemList()" aria-label="Current Level">
+            </div>
+            <div class="form-row">
+              <label for="currentXpPartial">XP in Level</label>
+              <input id="currentXpPartial" type="number" min="0" value="" placeholder="XP progress" oninput="updateItemList()" aria-label="XP in Level">
+            </div>
           </div>
 
           <div class="form-row">
@@ -244,6 +249,21 @@
       0,84,192,324,480,645,820,1005,1200,1407,1735,2082,2449,2838,3249,3684,4144,4631,5146,5691,6460,7281,8160,9101,10109,11191,12353,13603,14949,16400,18455,20675,23076,25675,28492,31549,34870,38482,42415,46702,52583,58662,64933,71390,78026,84833,91802,98923,106186,114398,123502,132734,142077,151515,161029,170602,180216,189852,199491,209115,220417,232945,246859,262341,279598,298871,320434,344603,371744,402278,441971,486789,537487,594941,660170,734360,818896,915396,1025752,1152182,1316749,1492835,1681248,1882849,2098562,2329375,2576345,2840603,3123359,3425908,3749636,4269287,4827911,5428432,6073992,6767969,7513995,8315973,9178099
     ];
 
+    function getCurrentTotalXp() {
+      const levelInput = document.getElementById('currentLevelInput');
+      let level = parseInt(levelInput.value) || 1;
+
+      const xpPartialInput = document.getElementById('currentXpPartial');
+      let xpPartial = parseInt(xpPartialInput.value.replace(/[\.,]/g, '')) || 0;
+
+      if (level < 1) level = 1;
+      if (level > XP_PER_LEVEL.length) level = XP_PER_LEVEL.length;
+
+      const baseXp = XP_PER_LEVEL[level - 1];
+      
+      return baseXp + xpPartial;
+    }
+
     function formatNumber(n){ return (typeof n === 'number') ? n.toLocaleString('en-US') : n; }
 
     function getLevelFromXp(xp){
@@ -309,13 +329,11 @@
     }
 
     // ...
-    function updateItemList(){
-      const selectedProf = profSelect.value;
-      // NOVO CÓDIGO: Limpa pontos e vírgulas antes de converter para número
-      const currentXpString = currentXpInput.value.replace(/[\.,]/g, '');
-      const currentXp = parseInt(currentXpString) || 0;
-      const currentLevel = getLevelFromXp(currentXp);
-// ...
+    function updateItemList(){
+      const selectedProf = profSelect.value;
+      
+      const currentXp = getCurrentTotalXp();
+      const currentLevel = getLevelFromXp(currentXp);
     
       itemSelect.innerHTML = '';
       let items = [];
@@ -484,13 +502,11 @@
     }
 
 
-    // ...
-    function calculate(){
-      // NOVO CÓDIGO: Limpa pontos e vírgulas antes de converter para número
-      const currentXpString = document.getElementById('currentXp').value.replace(/[\.,]/g, '');
-      const currentXp = parseInt(currentXpString) || 0;
-      const targetLvl = parseInt(document.getElementById('targetLvl').value) || 1;
-// ...
+    function calculate(){
+      const currentXp = getCurrentTotalXp();
+      const targetLvl = parseInt(document.getElementById('targetLvl').value) || 1;
+
+
       const efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
       const profKey = profSelect.value;
       const itemName = itemSelect.value;
@@ -591,7 +607,8 @@
     }
 
     profSelect.addEventListener('change', updateItemList);
-    currentXpInput.addEventListener('change', updateItemList);
+    document.getElementById('currentLevelInput').addEventListener('input', updateItemList);
+    document.getElementById('currentXpPartial').addEventListener('input', updateItemList);
 
     function tryPopulate(retries=0){
       if(typeof allData === 'object'){
