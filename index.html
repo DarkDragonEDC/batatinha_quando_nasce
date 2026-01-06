@@ -1,23 +1,13 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Switch Calculadoras</title>
-<style>
-  #calc1, #calc2 { display: none; }
-</style>
-</head>
-<body>
-
-<button onclick="trocar()">Switch between Pet Xp / Craft Xp</button>
-
-<div id="calc1">
-  <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>XP CALCULATOR</title>
+<meta name="robots" content="noindex">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚔️</text></svg>">
+
+<title>Switch Calculadoras</title>
 <style>
   :root{
     --bg:#f3f6fb;
@@ -37,15 +27,33 @@
     text-align: center;
   }
 
+  /* Controle de Abas */
+  #calc1, #calc2 { display: none; }
+  .active-calc { display: block !important; }
+
+  /* Botão de Troca */
+  .switch-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+  }
+  .switch-btn:hover { background: rgba(255,255,255,0.15); }
+
+  /* Estilos Gerais */
   .wrap{
     max-width:980px;
-    margin:18px auto;
+    margin:0 auto;
     display:grid;
     grid-template-columns: 1fr 420px;
     gap:18px;
   }
 
-  .card{
+  .card, .container{
     background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     border-radius:12px;
     padding:18px;
@@ -53,16 +61,21 @@
     border:1px solid rgba(255,255,255,0.03);
     text-align: center;
   }
-
-  header.card h1{
-    margin:0 0 6px 0;
-    font-size:1.15rem;
-    letter-spacing:0.2px;
+  
+  /* Container específico para a Calc de Pet */
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
   }
+
+  h1, h2 { margin:0 0 10px 0; font-size:1.15rem; color: #e6eef8; }
+  h2 { color:var(--accent); font-size: 1.5rem; margin-bottom: 20px; }
+  
   header.card p{margin:0;color:var(--muted);font-size:0.9rem}
 
-  label{display:block;margin-bottom:6px;font-weight:600;font-size:0.9rem;color:#dbeafe}
-  select,input[type="number"]{
+  label{display:block;margin-bottom:6px;font-weight:600;font-size:0.9rem;color:#dbeafe; text-align: left;}
+  
+  select,input[type="number"], input[type="text"]{
     width:100%;
     padding:10px 12px;
     border-radius:8px;
@@ -72,17 +85,10 @@
     font-size:0.95rem;
     outline:none;
     text-align: center;
+    margin-bottom: 12px;
   }
-  select option {
-    color: var(--panel);
-    background: var(--bg);
-  }
-  
-  input::placeholder {
-    color: var(--muted);
-    opacity: 0.6;
-    text-align: center;
-  }
+  select option { color: var(--panel); background: var(--bg); }
+  input::placeholder { color: var(--muted); opacity: 0.6; }
 
   .form-row{margin-bottom:12px}
 
@@ -96,104 +102,124 @@
     font-weight:700;
     cursor:pointer;
     box-shadow:0 8px 18px rgba(124,58,237,0.18);
+    font-size: 1rem;
   }
   button.primary:active{transform:translateY(1px)}
-  .small{font-size:0.85rem;color:var(--muted)}
 
-  .results{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-  .result-block{
+  .results{ display:flex; flex-direction:column; gap:12px; }
+  .result-block, .res{
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     padding:14px;
     border-radius:10px;
     border:1px solid rgba(255,255,255,0.02);
+    text-align: left;
   }
-  .result-block h3{margin:0 0 8px 0;font-size:1rem}
+  .res { text-align: center; margin-top: 20px; color: #dbeafe; line-height: 1.6; }
+  .result-block h3{margin:0 0 8px 0;font-size:1rem; color: #fff;}
   .result-block p{margin:6px 0;color:#dbeafe}
   .muted{color:var(--muted);font-size:0.9rem}
 
-  .grid-two{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-
-  .grid-two--compact{
-    grid-template-columns: 0.55fr 1.45fr;
-    gap:10px;
-  }
+  .grid-two{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .grid-two--compact{ grid-template-columns: 0.55fr 1.45fr; gap:10px; }
 
   .credits{margin-top:8px;text-align:center;color:var(--muted);font-size:0.85rem}
-
-  /* MEDIA QUERIES para responsividade */
-  @media (max-width: 980px) {
-    .wrap {
-      grid-template-columns: 1fr; /* Muda para uma única coluna */
-    }
-  }
-
-  @media (max-width: 500px) {
-    body {
-      padding: 12px;
-    }
-    .grid-two,
-    .grid-two--compact {
-      grid-template-columns: 1fr; /* Muda os grids internos para uma única coluna */
-    }
-    .card {
-      padding: 12px;
-    }
-  }
-
   .small-muted{color:var(--muted);font-size:0.85rem}
   .pill{display:inline-block;background:var(--glass);padding:6px 10px;border-radius:999px;font-size:0.85rem}
-  .donate-wrap{text-align:center;margin-top:8px;}
+
+  /* CSS para Lucro */
+  .profit-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #dbeafe;
+  }
+  .price-row span { text-align: left; flex: 1; }
+  .price-input {
+    width: 80px;
+    padding: 6px;
+    margin-bottom: 0;
+    text-align: right;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #4ade80; 
+  }
+  .profit-result {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .profit-win { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid #4ade80; }
+  .profit-loss { background: rgba(248, 113, 113, 0.15); color: #f87171; border: 1px solid #f87171; }
+
+  @media (max-width: 980px) {
+    .wrap { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 500px) {
+    .grid-two, .grid-two--compact { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
+
+<button class="switch-btn" onclick="trocar()">Switch between Pet Xp / Craft Xp</button>
+
+<div id="calc1" class="active-calc">
   <main class="wrap">
-    <section class="card" aria-labelledby="title">
+    <section class="card">
       <header>
-        <h1 id="title">XP CALCULATOR</h1>
-        <p class="small-muted">Choose profession, item and calculate how much XP and resources you need.</p>
+        <h1>XP CALCULATOR</h1>
+        <p class="small-muted">Choose profession, item and calculate resources.</p>
       </header>
 
       <div style="margin-top:14px">
         <div class="form-row">
           <label for="profSelect">Profession</label>
-          <select id="profSelect" aria-label="Profession"></select>
+          <select id="profSelect"></select>
         </div>
 
         <div class="grid-two">
-          <div class="grid-two"> <div class="form-row">
+          <div class="grid-two"> 
+            <div class="form-row">
               <label for="currentLevelInput">Current Level</label>
-              <input id="currentLevelInput" type="number" min="1" value="1" placeholder="Lvl" oninput="updateItemList()" aria-label="Current Level">
+              <input id="currentLevelInput" type="number" min="1" value="1" placeholder="Lvl">
             </div>
             <div class="form-row">
               <label for="currentXpPartial">XP in Level</label>
-              <input id="currentXpPartial" type="number" min="0" value="" placeholder="XP progress" oninput="updateItemList()" aria-label="XP in Level">
+              <input id="currentXpPartial" type="number" min="0" placeholder="XP progress">
             </div>
           </div>
 
           <div class="form-row">
             <label for="targetLvl">Target Level</label>
-            <input id="targetLvl" type="number" min="1" value="" placeholder="Enter the desired lvl" aria-label="Target Level">
+            <input id="targetLvl" type="number" min="1" placeholder="Enter desired lvl">
           </div>
         </div>
 
         <div class="grid-two grid-two--compact">
           <div class="form-row">
             <label for="efficiency">Efficiency (%)</label>
-            <input id="efficiency" type="number" min="0" max="99" value="" placeholder="Ur total Eff" aria-label="Efficiency">
+            <input id="efficiency" type="number" min="0" max="99" step="0.01" placeholder="Ur total Eff">
           </div>
 
           <div class="form-row">
-            <label for="itemSelect">Item</label>
-            <select id="itemSelect" aria-label="Item"></select>
+            <label for="searchItem">Search Item</label>
+            <input type="text" id="searchItem" placeholder="Type to filter (ex: bodyarmor)" oninput="filterItems()">
           </div>
+        </div>
+
+        <div class="form-row">
+           <label for="itemSelect">Select Item</label>
+           <select id="itemSelect"></select>
         </div>
 
         <div class="form-row" style="text-align:left; display:flex; align-items:center; gap:8px; margin-bottom:15px;">
@@ -202,28 +228,36 @@
             Calcular apenas o item final (Já tenho os sub-itens)
           </label>
         </div>
-        <div style="display:flex;gap:10px;align-items:center">
-          <button class="primary" onclick="calculate()">Calculate</button>
-        </div>
+
+        <button class="primary" onclick="calculate()">Calculate</button>
 
         <div class="credits">
           <div>Discord: <span class="pill">darkdragonx3985</span></div>
         </div>
+        
+        <div style="margin-top:8px; text-align:center;">
+           <span class="small-muted">Donate via PayPal</span>
+           <div style="margin-top:5px; opacity:0.7">
+              <form action="https://www.paypal.com/donate" method="post" target="_top" style="display:inline-block;">
+                <input type="hidden" name="business" value="JQSHTGU3WZA5Y" />
+                <input type="hidden" name="no_recurring" value="0" />
+                <input type="hidden" name="currency_code" value="BRL" />
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="Donate with PayPal" alt="Donate with PayPal" />
+                <img alt="" border="0" src="https://www.paypal.com/en_BR/i/scr/pixel.gif" width="1" height="1" />
+              </form>
+           </div>
+        </div>
 
-        <div class="donate-wrap">
-          <form class="paypal-donate-btn" action="https://www.paypal.com/donate" method="post" target="_top" style="display:inline-block;text-align:center">
-            <input type="hidden" name="business" value="JQSHTGU3WZA5Y" />
-            <input type="hidden" name="no_recurring" value="0" />
-            <input type="hidden" name="currency_code" value="BRL" />
-            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="Donate with PayPal" alt="Donate with PayPal" />
-            <img alt="" border="0" src="https://www.paypal.com/en_BR/i/scr/pixel.gif" width="1" height="1" />
-          </form>
+        <div style="margin-top:20px; text-align:center;">
+          <button onclick="clearData()" style="background:transparent; border:1px solid #334155; color:#64748b; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:0.8rem;">
+            🗑️ Reset Saved Data
+          </button>
         </div>
 
       </div>
     </section>
 
-    <aside class="card results" aria-live="polite">
+    <aside class="card results">
       <div class="result-block">
         <h3>Summary</h3>
         <p id="summaryXp" class="muted">Fill the fields and click <strong>Calculate</strong>.</p>
@@ -241,501 +275,30 @@
       </div>
 
       <div id="rawBlock" class="result-block" style="display:none">
-        <h3>Raw Materials</h3>
+        <h3>Raw Materials & Costs</h3>
         <div id="rawList" class="muted"></div>
       </div>
+      
+      <div id="profitBlock" class="result-block" style="display:none">
+        <h3>Profit Calculator</h3>
+        
+        <div class="form-row">
+           <label style="font-size:0.85rem">Sell Price (Item Final)</label>
+           <input type="number" id="sellPrice" class="price-input" style="width:100%; text-align:center; font-size:1rem;" placeholder="Sell Price">
+        </div>
+
+        <button class="primary" onclick="calculateProfit()" style="padding:8px; font-size:0.9rem; margin-top:5px;">Check Profit</button>
+        
+        <div id="profitResult"></div>
+      </div>
+
     </aside>
   </main>
-
-  <script src="./craftsimport.js"></script>
-
-  <script>
-    // Level XP table
-    const XP_PER_LEVEL = [
-      0,84,192,324,480,645,820,1005,1200,1407,1735,2082,2449,2838,3249,3684,4144,4631,5146,5691,6460,7281,8160,9101,10109,11191,12353,13603,14949,16400,18455,20675,23076,25675,28492,31549,34870,38482,42415,46702,52583,58662,64933,71390,78026,84833,91802,98923,106186,114398,123502,132734,142077,151515,161029,170602,180216,189852,199491,209115,220417,232945,246859,262341,279598,298871,320434,344603,371744,402278,441971,486789,537487,594941,660170,734360,818896,915396,1025752,1152182,1316749,1492835,1681248,1882849,2098562,2329375,2576345,2840603,3123359,3425908,3749636,4269287,4827911,5428432,6073992,6767969,7513995,8315973,9178099
-    ];
-
-    function getCurrentTotalXp() {
-      const levelInput = document.getElementById('currentLevelInput');
-      let level = parseInt(levelInput.value) || 1;
-
-      const xpPartialInput = document.getElementById('currentXpPartial');
-      let xpPartial = parseInt(xpPartialInput.value.replace(/[\.,]/g, '')) || 0;
-
-      if (level < 1) level = 1;
-      if (level > XP_PER_LEVEL.length) level = XP_PER_LEVEL.length;
-
-      const baseXp = XP_PER_LEVEL[level - 1];
-      
-      return baseXp + xpPartial;
-    }
-
-    function formatNumber(n){ return (typeof n === 'number') ? n.toLocaleString('en-US') : n; }
-
-    function getLevelFromXp(xp){
-      let currentLevel = 1;
-      for (let i = 0; i < XP_PER_LEVEL.length; i++){
-        if (xp >= XP_PER_LEVEL[i]) currentLevel = i + 1;
-      }
-      return currentLevel;
-    }
-
-    const profSelect = document.getElementById('profSelect');
-    const itemSelect = document.getElementById('itemSelect');
-    const currentXpInput = document.getElementById('currentXp');
-    const resultsSummary = document.getElementById('summaryXp');
-    const resultsMore = document.getElementById('summaryMore');
-    const timeBlock = document.getElementById('timeBlock');
-    const timeList = document.getElementById('timeList');
-    const subcraftBlock = document.getElementById('subcraftBlock');
-    const subList = document.getElementById('subList');
-    const rawBlock = document.getElementById('rawBlock');
-    const rawList = document.getElementById('rawList');
-    const gatheringProfessions = ['Woodcutting', 'Mining', 'Fishing', 'Herbalism', 'Tracking', 'Gathering'];
-
-    function populateProfessions() {
-      if (typeof allData !== 'object') {
-        profSelect.innerHTML = '<option disabled>Data not found (craftsimport.js)</option>';
-        return;
-      }
-      profSelect.innerHTML = '';
-      const allProfessions = [];
-    
-      for (const category in allData) {
-        if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
-          for (const profession in allData[category]) {
-            allProfessions.push(profession);
-          }
-        } else {
-          allProfessions.push(category);
-        }
-      }
-    
-      allProfessions.forEach(prof => {
-        const option = document.createElement('option');
-        option.value = prof;
-        option.textContent = prof.charAt(0).toUpperCase() + prof.slice(1);
-        profSelect.appendChild(option);
-      });
-      
-      updateItemList();
-    }
-    
-    function getNumericLevel(level) {
-        if (typeof level === 'number') {
-            return level;
-        }
-        if (typeof level === 'string') {
-            const tier = level.toUpperCase();
-            if (tier === 'T1') return 85;
-            if (tier === 'T2') return 90;
-            if (tier === 'T3') return 95;
-        }
-        return Number.MAX_SAFE_INTEGER;
-    }
-
-    // ...
-    function updateItemList(){
-      const selectedProf = profSelect.value;
-      
-      const currentXp = getCurrentTotalXp();
-      const currentLevel = getLevelFromXp(currentXp);
-    
-      itemSelect.innerHTML = '';
-      let items = [];
-    
-      for (const category in allData) {
-        if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
-          if (allData[category][selectedProf]) {
-            items = allData[category][selectedProf];
-            break;
-          }
-        } else {
-          if (category === selectedProf) {
-            items = allData[category];
-            break;
-          }
-        }
-      }
-    
-      const filtered = items.filter(it => getNumericLevel(it.Level) <= currentLevel);
-    
-      if(filtered.length){
-        filtered.forEach(item => {
-          const opt = document.createElement('option');
-          opt.value = item.Name;
-          
-          let levelText = `(Lvl ${item.Level})`;
-          if (item.Level === 'T1' || item.Level === 'T2' || item.Level === 'T3') {
-              levelText = `(${item.Level})`;
-          }
-          opt.textContent = `${levelText} ${item.Name}`;
-          itemSelect.appendChild(opt);
-        });
-      } else {
-        const opt = document.createElement('option');
-        opt.textContent = 'No items available at this level';
-        opt.disabled = true;
-        itemSelect.appendChild(opt);
-      }
-    }
-
-    function parseTime(timeString){
-      if(!timeString) return 0;
-      const s = String(timeString).trim();
-      const match = s.match(/^(\d+)\s*(s|sec|second|m|min|minute|h|hour|d|day|mo|month|y|year)/i);
-      if(!match) return parseInt(s) || 0;
-      const val = parseInt(match[1],10);
-      const unit = match[2].toLowerCase();
-      switch(unit){
-        case 's': case 'sec': case 'second': return val;
-        case 'm': case 'min': case 'minute': return val * 60;
-        case 'h': case 'hour': return val * 3600;
-        case 'd': case 'day': return val * 86400;
-        case 'mo': case 'month': return val * 2592000;
-        case 'y': case 'year': return val * 31536000;
-        default: return val;
-      }
-    }
-
-    function formatTime(totalSeconds){
-      if(totalSeconds <= 0) return '0s';
-      totalSeconds = Math.round(totalSeconds);
-      const years = Math.floor(totalSeconds / 31536000); totalSeconds %= 31536000;
-      const months = Math.floor(totalSeconds / 2592000); totalSeconds %= 2592000;
-      const days = Math.floor(totalSeconds / 86400); totalSeconds %= 86400;
-      const hours = Math.floor(totalSeconds / 3600); totalSeconds %= 3600;
-      const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60;
-      const parts = [];
-      if(years) parts.push(years + 'y');
-      if(months) parts.push(months + 'mo');
-      if(days) parts.push(days + 'd');
-      if(hours) parts.push(hours + 'h');
-      if(minutes) parts.push(minutes + 'm');
-      if(seconds) parts.push(seconds + 's');
-      return parts.join(' ');
-    }
-
-    function getItemProfession(itemName) {
-        for (const category in allData) {
-            if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
-              for (const subProf in allData[category]) {
-                if (allData[category][subProf].some(i => i.Name === itemName)) {
-                  return subProf;
-                }
-              }
-            } else {
-              if (allData[category].some(i => i.Name === itemName)) {
-                return category;
-              }
-            }
-        }
-        return null;
-    }
-    
-
-    function calculateDetails(profKey, itemName, craftsNeeded, efficiencyPercent, onlyFinal){
-        let profItems = null;
-        for (const category in allData) {
-            if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
-                if (allData[category][profKey]) {
-                    profItems = allData[category][profKey];
-                    break;
-                }
-            } else {
-                if (category === profKey) {
-                    profItems = allData[category];
-                    break;
-                }
-            }
-        }
-
-        if(!profItems) return { rawMaterials:{}, subCrafts:{}, craftingTimes:{}, totalTime:0, totalXp:0 };
-        
-        const item = profItems.find(i => i.Name === itemName);
-        if(!item) return { rawMaterials:{}, subCrafts:{}, craftingTimes:{}, totalTime:0, totalXp:0 };
-
-        const rawMaterials = {};
-        const subCrafts = {};
-        const craftingTimes = {};
-        let totalTime = 0;
-        let totalXp = 0;
-
-        const itemProf = getItemProfession(itemName);
-        if (itemProf === profKey) {
-            const baseTime = parseTime(item['Base Time']);
-            const effectiveTime = baseTime * (1 - (efficiencyPercent || 0) / 100);
-            const thisItemTime = effectiveTime * craftsNeeded;
-            craftingTimes[itemName] = thisItemTime;
-            totalTime += thisItemTime;
-            totalXp += (Number(item['Skill Exp']) || 0) * craftsNeeded;
-        }
-      
-        for(let i = 0; i <= 10; i++){
-          const reqName = item[`Requirement ${i}`];
-          const reqAmount = Number(item[`Requirement ${i} Amount`]) || 0;
-          
-          if(reqName && reqAmount){
-            const subProfKey = getItemProfession(reqName);
-
-            if(subProfKey && !gatheringProfessions.includes(subProfKey) && !onlyFinal){
-              
-              subCrafts[reqName] = (subCrafts[reqName] || 0) + reqAmount * craftsNeeded;
-
-              const subResult = calculateDetails(subProfKey, reqName, reqAmount * craftsNeeded, efficiencyPercent, false);
-              
-              if (subProfKey === profKey) {
-                  totalTime += subResult.totalTime;
-                  totalXp += subResult.totalXp;
-                  for (const t in subResult.craftingTimes) {
-                      craftingTimes[t] = (craftingTimes[t] || 0) + subResult.craftingTimes[t];
-                  }
-              }
-              
-              for(const m in subResult.rawMaterials) rawMaterials[m] = (rawMaterials[m] || 0) + subResult.rawMaterials[m];
-              for(const s in subResult.subCrafts) subCrafts[s] = (subCrafts[s] || 0) + subResult.subCrafts[s];
-
-            } else {
-              rawMaterials[reqName] = (rawMaterials[reqName] || 0) + reqAmount * craftsNeeded;
-            }
-          }
-        }
-        return { rawMaterials, subCrafts, craftingTimes, totalTime, totalXp };
-    }
-
-
-function calculate(){
-      // Lógica de XP que você já tinha
-      const currentXp = getCurrentTotalXp(); 
-      const targetLvl = parseInt(document.getElementById('targetLvl').value) || 1;
-      
-      const efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
-      const profKey = profSelect.value;
-      const itemName = itemSelect.value;
-
-      // NOVA LINHA: Ler o estado do checkbox
-      const isSimpleMode = document.getElementById('simpleMode').checked;
-      
-      let profItems = null;
-      for (const category in allData) {
-          if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
-              if (allData[category][profKey]) {
-                  profItems = allData[category][profKey];
-                  break;
-              }
-          } else {
-              if (category === profKey) {
-                  profItems = allData[category];
-                  break;
-              }
-          }
-      }
-
-      if(!profItems){
-        resultsSummary.textContent = 'Invalid profession or data not loaded.';
-        return;
-      }
-      if(targetLvl < 1 || targetLvl > XP_PER_LEVEL.length){
-        resultsSummary.innerHTML = `Invalid target level. (1 - ${XP_PER_LEVEL.length})`;
-        return;
-      }
-
-      const targetXp = XP_PER_LEVEL[targetLvl - 1];
-      if(targetXp <= currentXp){
-        resultsSummary.innerHTML = `You already have enough XP for level ${targetLvl}.`;
-        timeBlock.style.display = 'none'; subcraftBlock.style.display='none'; rawBlock.style.display='none';
-        return;
-      }
-
-      const selectedItem = profItems.find(i => i.Name === itemName);
-      if(!selectedItem){
-        resultsSummary.textContent = 'Invalid item.';
-        return;
-      }
-      
-      // ALTERAÇÃO AQUI: Passamos 'isSimpleMode' para calcular o XP de UM item
-      // Se estiver marcado, ele só vai considerar o XP do item final, sem somar os sub-itens
-      const detailsForOneCraft = calculateDetails(profKey, itemName, 1, efficiency, isSimpleMode);
-      const totalXpPerCraft = detailsForOneCraft.totalXp;
-      
-      if (totalXpPerCraft <= 0) {
-        resultsSummary.textContent = 'XP per item is zero (or sub-items excluded) — check item data.';
-        return;
-      }
-      
-      const xpNeeded = targetXp - currentXp;
-      
-      const craftsNeeded = Math.ceil(xpNeeded / totalXpPerCraft);
-
-      // ALTERAÇÃO AQUI: Passamos 'isSimpleMode' para o cálculo total também
-      const finalDetail = calculateDetails(profKey, itemName, craftsNeeded, efficiency, isSimpleMode);
-
-      const totalTimeFinal = finalDetail.totalTime;
-      const finalRaw = finalDetail.rawMaterials;
-      const finalSubs = finalDetail.subCrafts;
-      const finalCraftingTimes = finalDetail.craftingTimes;
-
-      const isMainItemCrafting = !gatheringProfessions.includes(profKey);
-
-      resultsSummary.innerHTML = `<strong>XP needed:</strong> ${formatNumber(xpNeeded)}<br><strong>Items required:</strong> ${formatNumber(craftsNeeded)} x ${itemName}<br><span class="small-muted">(each gives ${formatNumber(totalXpPerCraft)} XP)</span>`;
-      resultsMore.innerHTML = `<span class="small-muted">Estimated current level: ${getLevelFromXp(currentXp)} — Target level: ${targetLvl}</span>`;
-
-      timeBlock.style.display = 'block';
-      const timeBlockTitle = timeBlock.querySelector('h3');
-      timeBlockTitle.textContent = isMainItemCrafting ? 'Crafting Time' : 'Gathering Time';
-      
-      let timeItemsHtml = '';
-      const sortedTimeKeys = Object.keys(finalCraftingTimes).sort();
-      sortedTimeKeys.forEach(item => {
-          timeItemsHtml += `<p><strong>${item}:</strong> ${formatTime(finalCraftingTimes[item])}</p>`;
-      });
-      timeList.innerHTML = `${timeItemsHtml}<p><strong>Total estimated time:</strong> ${formatTime(totalTimeFinal)}</p>`;
-
-      const subsKeys = Object.keys(finalSubs).sort();
-      if(subsKeys.length){
-        subcraftBlock.style.display = 'block';
-        subList.innerHTML = subsKeys.map(k => `<p>${k}: ${formatNumber(finalSubs[k])}</p>`).join('');
-      } else {
-        subcraftBlock.style.display = 'none';
-        subList.innerHTML = '';
-      }
-
-      const matsKeys = Object.keys(finalRaw).sort();
-      if(matsKeys.length){
-        rawBlock.style.display = 'block';
-        rawList.innerHTML = matsKeys.map(k => `<p>${k}: ${formatNumber(finalRaw[k])}</p>`).join('');
-      } else {
-        rawBlock.style.display = 'none';
-        rawList.innerHTML = '';
-      }
-    }
-
-    profSelect.addEventListener('change', updateItemList);
-    document.getElementById('currentLevelInput').addEventListener('input', updateItemList);
-    document.getElementById('currentXpPartial').addEventListener('input', updateItemList);
-
-    function tryPopulate(retries=0){
-      if(typeof allData === 'object'){
-        populateProfessions();
-      } else if(retries < 20){
-        setTimeout(()=>tryPopulate(retries+1), 100);
-      } else {
-        profSelect.innerHTML = '<option disabled>Data failed to load</option>';
-      }
-    }
-    tryPopulate();
-  </script>
-</body>
-</html>
 </div>
 
 <div id="calc2">
-  <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <title>Calculadora de Pet</title>
-
-  <style>
-:root{
-  --bg:#f3f6fb;
-  --panel:#0f1724;
-  --muted:#9aa3b2;
-  --accent:#7c3aed;
-  --glass: rgba(255,255,255,0.03);
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-body{
-  margin:0;
-  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-  background: linear-gradient(180deg,#071124 0%, #081424 60%);
-  color:#e6eef8;
-  padding:18px;
-  -webkit-font-smoothing:antialiased;
-  text-align:center;
-}
-
-.container{
-  max-width: 480px;
-  width: 100%;
-  margin: 0 auto;
-  background: transparent;
-}
-
-h2{
-  color:#7c3aed;
-  margin-bottom:20px;
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
-}
-
-label{
-  display:block;
-  margin-bottom:6px;
-  font-weight:600;
-  font-size: clamp(0.85rem, 2.5vw, 1rem);
-  color:#dbeafe;
-  text-align:left;
-}
-
-input, select{
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  border:1px solid rgba(255,255,255,0.06);
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color:#e6eef8;
-  font-size:1rem;
-  outline:none;
-  text-align:center;
-  margin-bottom:14px;
-}
-
-button{
-  width:100%;
-  background:linear-gradient(180deg,var(--accent), #5b21b6);
-  color:white;
-  padding:14px;
-  border-radius:10px;
-  border:0;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 8px 18px rgba(124,58,237,0.18);
-  font-size:1.05rem;
-}
-button:active{transform:translateY(1px)}
-
-.res{
-  margin-top:20px;
-  padding:18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border:1px solid rgba(255,255,255,0.03);
-  border-radius:12px;
-  font-weight:bold;
-  line-height:1.6;
-  color:#dbeafe;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-}
-
-@media (max-width: 360px){
-  input, select, button{
-    padding:10px;
-    font-size:0.9rem;
-  }
-}
-  </style>
-</head>
-
-<body>
   <div class="container">
-
     <h2>Pet Calculator</h2>
-
     <label>Current XP:</label>
     <input id="xpAtual" type="text" placeholder="Type your pet's current XP" />
 
@@ -748,15 +311,463 @@ button:active{transform:translateY(1px)}
       <option value="lendario">Legendary</option>
     </select>
 
-    <button onclick="calcular()">Calcular</button>
-
-    <div class="res" id="saida"></div>
-
+    <button class="primary" onclick="calcularPet()">Calculate Pet</button>
+    <div class="res" id="saidaPet"></div>
   </div>
+</div>
 
+<script src="./craftsimport.js"></script>
 <script>
-// níveis 1..99
+// --- LÓGICA GERAL (SWITCH) ---
+let atual = 1;
+function trocar() {
+  if(atual === 1){
+    document.getElementById('calc1').classList.remove('active-calc');
+    document.getElementById('calc2').classList.add('active-calc');
+    atual = 2;
+  } else {
+    document.getElementById('calc1').classList.add('active-calc');
+    document.getElementById('calc2').classList.remove('active-calc');
+    atual = 1;
+  }
+}
+
+// --- LÓGICA CALCULADORA 1 (CRAFT) ---
+const XP_PER_LEVEL = [
+  0,84,192,324,480,645,820,1005,1200,1407,1735,2082,2449,2838,3249,3684,4144,4631,5146,5691,6460,7281,8160,9101,10109,11191,12353,13603,14949,16400,18455,20675,23076,25675,28492,31549,34870,38482,42415,46702,52583,58662,64933,71390,78026,84833,91802,98923,106186,114398,123502,132734,142077,151515,161029,170602,180216,189852,199491,209115,220417,232945,246859,262341,279598,298871,320434,344603,371744,402278,441971,486789,537487,594941,660170,734360,818896,915396,1025752,1152182,1316749,1492835,1681248,1882849,2098562,2329375,2576345,2840603,3123359,3425908,3749636,4269287,4827911,5428432,6073992,6767969,7513995,8315973,9178099
+];
+
+const profSelect = document.getElementById('profSelect');
+const itemSelect = document.getElementById('itemSelect');
+const resultsSummary = document.getElementById('summaryXp');
+const resultsMore = document.getElementById('summaryMore');
+const timeBlock = document.getElementById('timeBlock');
+const timeList = document.getElementById('timeList');
+const subcraftBlock = document.getElementById('subcraftBlock');
+const subList = document.getElementById('subList');
+const rawBlock = document.getElementById('rawBlock');
+const rawList = document.getElementById('rawList');
+const gatheringProfessions = ['Woodcutting', 'Mining', 'Fishing', 'Herbalism', 'Tracking', 'Gathering'];
+
+function filterItems() {
+  const term = document.getElementById('searchItem').value.toLowerCase();
+  const select = document.getElementById('itemSelect');
+  const options = select.getElementsByTagName('option');
+  let firstVisibleIndex = -1;
+
+  for (let i = 0; i < options.length; i++) {
+    const txt = options[i].textContent.toLowerCase();
+    if (txt.includes(term)) {
+      options[i].style.display = '';
+      if(firstVisibleIndex === -1) firstVisibleIndex = i;
+    } else {
+      options[i].style.display = 'none';
+    }
+  }
+  if (select.selectedIndex >= 0 && options[select.selectedIndex].style.display === 'none') {
+      if (firstVisibleIndex !== -1) select.selectedIndex = firstVisibleIndex;
+  }
+}
+
+// --- SALVAR E LIMPAR DADOS ---
+function saveData(){
+  localStorage.setItem('savedLevel', document.getElementById('currentLevelInput').value);
+  localStorage.setItem('savedEff', document.getElementById('efficiency').value);
+  localStorage.setItem('savedProf', document.getElementById('profSelect').value);
+}
+
+function loadData(){
+  if(localStorage.getItem('savedLevel')) {
+      document.getElementById('currentLevelInput').value = localStorage.getItem('savedLevel');
+  }
+  if(localStorage.getItem('savedEff')) {
+      document.getElementById('efficiency').value = localStorage.getItem('savedEff');
+  }
+  if(localStorage.getItem('savedProf')) {
+      setTimeout(() => {
+          const savedProf = localStorage.getItem('savedProf');
+          if(savedProf) {
+              profSelect.value = savedProf;
+              updateItemList(); 
+          }
+      }, 50);
+  }
+}
+
+// NOVA FUNÇÃO: Resetar tudo
+function clearData(){
+  if(confirm('Are you sure you want to clear all saved prices and settings? This cannot be undone.')){
+    localStorage.clear();
+    location.reload();
+  }
+}
+
+function getCurrentTotalXp() {
+  const levelInput = document.getElementById('currentLevelInput');
+  let level = parseInt(levelInput.value) || 1;
+  const xpPartialInput = document.getElementById('currentXpPartial');
+  let xpPartial = parseInt(xpPartialInput.value.replace(/[\.,]/g, '')) || 0;
+
+  if (level < 1) level = 1;
+  if (level > XP_PER_LEVEL.length) level = XP_PER_LEVEL.length;
+  const baseXp = XP_PER_LEVEL[level - 1];
+  return baseXp + xpPartial;
+}
+
+function formatNumber(n){ return (typeof n === 'number') ? n.toLocaleString('en-US') : n; }
+function getLevelFromXp(xp){
+  let currentLevel = 1;
+  for (let i = 0; i < XP_PER_LEVEL.length; i++){
+    if (xp >= XP_PER_LEVEL[i]) currentLevel = i + 1;
+  }
+  return currentLevel;
+}
+function getNumericLevel(level) {
+    if (typeof level === 'number') return level;
+    if (typeof level === 'string') {
+        const tier = level.toUpperCase();
+        if (tier === 'T1') return 85;
+        if (tier === 'T2') return 90;
+        if (tier === 'T3') return 95;
+    }
+    return Number.MAX_SAFE_INTEGER;
+}
+
+function updateItemList(){
+  if (typeof allData !== 'object') return;
+  const selectedProf = profSelect.value;
+  const currentXp = getCurrentTotalXp();
+  const currentLevel = getLevelFromXp(currentXp);
+
+  itemSelect.innerHTML = '';
+  let items = [];
+
+  for (const category in allData) {
+    if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
+      if (allData[category][selectedProf]) {
+        items = allData[category][selectedProf];
+        break;
+      }
+    } else {
+      if (category === selectedProf) {
+        items = allData[category];
+        break;
+      }
+    }
+  }
+
+  const filtered = items.filter(it => getNumericLevel(it.Level) <= currentLevel);
+
+  if(filtered.length){
+    filtered.forEach(item => {
+      const opt = document.createElement('option');
+      opt.value = item.Name;
+      let levelText = `(Lvl ${item.Level})`;
+      if (['T1','T2','T3'].includes(item.Level)) levelText = `(${item.Level})`;
+      opt.textContent = `${levelText} ${item.Name}`;
+      itemSelect.appendChild(opt);
+    });
+  } else {
+    const opt = document.createElement('option');
+    opt.textContent = 'No items available at this level';
+    opt.disabled = true;
+    itemSelect.appendChild(opt);
+  }
+  
+  document.getElementById('searchItem').value = '';
+  filterItems();
+}
+
+function parseTime(timeString){
+  if(!timeString) return 0;
+  const s = String(timeString).trim();
+  const match = s.match(/^(\d+)\s*(s|sec|second|m|min|minute|h|hour|d|day|mo|month|y|year)/i);
+  if(!match) return parseInt(s) || 0;
+  const val = parseInt(match[1],10);
+  const unit = match[2].toLowerCase();
+  switch(unit){
+    case 'm': case 'min': case 'minute': return val * 60;
+    case 'h': case 'hour': return val * 3600;
+    case 'd': case 'day': return val * 86400;
+    default: return val;
+  }
+}
+
+function formatTime(totalSeconds){
+  if(totalSeconds <= 0) return '0s';
+  totalSeconds = Math.round(totalSeconds);
+  const hours = Math.floor(totalSeconds / 3600); totalSeconds %= 3600;
+  const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60;
+  const parts = [];
+  if(hours) parts.push(hours + 'h');
+  if(minutes) parts.push(minutes + 'm');
+  if(seconds) parts.push(seconds + 's');
+  return parts.join(' ');
+}
+
+function getItemProfession(itemName) {
+    for (const category in allData) {
+        if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
+          for (const subProf in allData[category]) {
+            if (allData[category][subProf].some(i => i.Name === itemName)) return subProf;
+          }
+        } else {
+          if (allData[category].some(i => i.Name === itemName)) return category;
+        }
+    }
+    return null;
+}
+
+function calculateDetails(profKey, itemName, craftsNeeded, efficiencyPercent, onlyFinal){
+    let profItems = null;
+    for (const category in allData) {
+        if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
+            if (allData[category][profKey]) { profItems = allData[category][profKey]; break; }
+        } else {
+            if (category === profKey) { profItems = allData[category]; break; }
+        }
+    }
+    if(!profItems) return { rawMaterials:{}, subCrafts:{}, craftingTimes:{}, totalTime:0, totalXp:0 };
+    const item = profItems.find(i => i.Name === itemName);
+    if(!item) return { rawMaterials:{}, subCrafts:{}, craftingTimes:{}, totalTime:0, totalXp:0 };
+
+    const rawMaterials = {};
+    const subCrafts = {};
+    const craftingTimes = {};
+    let totalTime = 0;
+    let totalXp = 0;
+
+    const itemProf = getItemProfession(itemName);
+    if (itemProf === profKey) {
+        const baseTime = parseTime(item['Base Time']);
+        const effectiveTime = baseTime * (1 - (efficiencyPercent || 0) / 100);
+        const thisItemTime = effectiveTime * craftsNeeded;
+        craftingTimes[itemName] = thisItemTime;
+        totalTime += thisItemTime;
+        totalXp += (Number(item['Skill Exp']) || 0) * craftsNeeded;
+    }
+  
+    for(let i = 0; i <= 10; i++){
+      const reqName = item[`Requirement ${i}`];
+      const reqAmount = Number(item[`Requirement ${i} Amount`]) || 0;
+      
+      if(reqName && reqAmount){
+        const subProfKey = getItemProfession(reqName);
+        if(subProfKey && !gatheringProfessions.includes(subProfKey) && !onlyFinal){
+          subCrafts[reqName] = (subCrafts[reqName] || 0) + reqAmount * craftsNeeded;
+          const subResult = calculateDetails(subProfKey, reqName, reqAmount * craftsNeeded, efficiencyPercent, false);
+          
+          if (subProfKey === profKey) {
+              totalTime += subResult.totalTime;
+              totalXp += subResult.totalXp;
+              for (const t in subResult.craftingTimes) {
+                  craftingTimes[t] = (craftingTimes[t] || 0) + subResult.craftingTimes[t];
+              }
+          }
+          for(const m in subResult.rawMaterials) rawMaterials[m] = (rawMaterials[m] || 0) + subResult.rawMaterials[m];
+          for(const s in subResult.subCrafts) subCrafts[s] = (subCrafts[s] || 0) + subResult.subCrafts[s];
+
+        } else {
+          rawMaterials[reqName] = (rawMaterials[reqName] || 0) + reqAmount * craftsNeeded;
+        }
+      }
+    }
+    return { rawMaterials, subCrafts, craftingTimes, totalTime, totalXp };
+}
+
+function saveMaterialPrice(input){
+    const name = input.getAttribute('data-name');
+    const val = input.value;
+    localStorage.setItem('price_' + name, val);
+}
+
+function calculate(){
+  const currentXp = getCurrentTotalXp(); 
+  const targetLvl = parseInt(document.getElementById('targetLvl').value) || 1;
+  const effInput = document.getElementById('efficiency').value;
+  const efficiency = parseFloat(effInput.replace(',', '.')) || 0;
+  const profKey = profSelect.value;
+  const itemName = itemSelect.value;
+  const isSimpleMode = document.getElementById('simpleMode').checked;
+  
+  let profItems = null;
+  for (const category in allData) {
+      if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
+          if (allData[category][profKey]) { profItems = allData[category][profKey]; break; }
+      } else {
+          if (category === profKey) { profItems = allData[category]; break; }
+      }
+  }
+
+  if(!profItems){ resultsSummary.textContent = 'Invalid profession.'; return; }
+  
+  const targetXp = XP_PER_LEVEL[targetLvl - 1] || 0;
+  if(targetXp <= currentXp){
+    resultsSummary.innerHTML = `You already have enough XP for level ${targetLvl}.`;
+    timeBlock.style.display = 'none'; subcraftBlock.style.display='none'; rawBlock.style.display='none';
+    document.getElementById('profitBlock').style.display='none';
+    return;
+  }
+
+  const selectedItem = profItems.find(i => i.Name === itemName);
+  if(!selectedItem){ resultsSummary.textContent = 'Invalid item.'; return; }
+  
+  const detailsForOneCraft = calculateDetails(profKey, itemName, 1, efficiency, isSimpleMode);
+  const totalXpPerCraft = detailsForOneCraft.totalXp;
+  
+  if (totalXpPerCraft <= 0) {
+    resultsSummary.textContent = 'XP per item is zero (or sub-items excluded).';
+    return;
+  }
+  
+  const xpNeeded = targetXp - currentXp;
+  const craftsNeeded = Math.ceil(xpNeeded / totalXpPerCraft);
+  const finalDetail = calculateDetails(profKey, itemName, craftsNeeded, efficiency, isSimpleMode);
+
+  resultsSummary.innerHTML = `<strong>XP needed:</strong> ${formatNumber(xpNeeded)}<br><strong>Items required:</strong> ${formatNumber(craftsNeeded)} x ${itemName}<br><span class="small-muted">(each gives ${formatNumber(totalXpPerCraft)} XP)</span>`;
+  
+  resultsMore.innerHTML = `<span class="small-muted">Estimated current level: ${getLevelFromXp(currentXp)} — Target level: ${targetLvl}</span>`;
+
+  timeBlock.style.display = 'block';
+  timeBlock.querySelector('h3').textContent = !gatheringProfessions.includes(profKey) ? 'Crafting Time' : 'Gathering Time';
+  
+  let timeItemsHtml = '';
+  Object.keys(finalDetail.craftingTimes).sort().forEach(item => {
+      timeItemsHtml += `<p><strong>${item}:</strong> ${formatTime(finalDetail.craftingTimes[item])}</p>`;
+  });
+  timeList.innerHTML = `${timeItemsHtml}<p><strong>Total estimated time:</strong> ${formatTime(finalDetail.totalTime)}</p>`;
+
+  const subsKeys = Object.keys(finalDetail.subCrafts).sort();
+  if(subsKeys.length){
+    subcraftBlock.style.display = 'block';
+    subList.innerHTML = subsKeys.map(k => `<p>${k}: ${formatNumber(finalDetail.subCrafts[k])}</p>`).join('');
+  } else { subcraftBlock.style.display = 'none'; }
+
+  // Geração da Lista de Materiais + Inputs de Lucro
+  const matsKeys = Object.keys(finalDetail.rawMaterials).sort();
+  if(matsKeys.length){
+    rawBlock.style.display = 'block';
+    document.getElementById('profitBlock').style.display = 'block';
+    document.getElementById('profitResult').innerHTML = '';
+
+    let rawHtml = '<div class="profit-section"><p class="small-muted" style="margin-bottom:10px">Unit prices (saved automatically):</p>';
+    
+    matsKeys.forEach(key => {
+        const savedPrice = localStorage.getItem('price_' + key) || '';
+        const qty = finalDetail.rawMaterials[key];
+        
+        rawHtml += `
+            <div class="price-row">
+                <span>${formatNumber(qty)}x ${key}</span>
+                <input type="number" 
+                       class="price-input mat-cost-input" 
+                       data-name="${key}" 
+                       data-qty="${qty}" 
+                       value="${savedPrice}" 
+                       placeholder="Price"
+                       onchange="saveMaterialPrice(this)">
+            </div>
+        `;
+    });
+    rawHtml += '</div>';
+    rawList.innerHTML = rawHtml;
+    
+    const savedSell = localStorage.getItem('sell_' + itemName) || '';
+    document.getElementById('sellPrice').value = savedSell;
+    document.getElementById('sellPrice').setAttribute('onchange', `localStorage.setItem('sell_${itemName}', this.value)`);
+
+  } else { 
+    rawBlock.style.display = 'none';
+    document.getElementById('profitBlock').style.display = 'none';
+  }
+}
+
+function calculateProfit(){
+    const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+    const craftsNeededString = resultsSummary.innerHTML.match(/Items required:<\/strong>\s*([\d,]+)/);
+    
+    let totalItems = 0;
+    if(craftsNeededString && craftsNeededString[1]){
+        totalItems = parseInt(craftsNeededString[1].replace(/,/g, '')) || 0;
+    }
+    
+    if(totalItems === 0) return;
+
+    let totalCost = 0;
+    const inputs = document.querySelectorAll('.mat-cost-input');
+    
+    inputs.forEach(inp => {
+        const price = parseFloat(inp.value) || 0;
+        const qty = parseFloat(inp.getAttribute('data-qty')) || 0;
+        totalCost += (price * qty);
+    });
+
+    const totalRevenue = sellPrice * totalItems;
+    const profit = totalRevenue - totalCost;
+    const profitPerItem = totalItems > 0 ? (profit / totalItems) : 0;
+
+    const resDiv = document.getElementById('profitResult');
+    
+    let colorClass = profit >= 0 ? 'profit-win' : 'profit-loss';
+    let label = profit >= 0 ? 'PROFIT' : 'LOSS';
+    
+    resDiv.className = `profit-result ${colorClass}`;
+    resDiv.innerHTML = `
+        <div>TOTAL ${label}: ${formatNumber(profit.toFixed(0))}</div>
+        <div style="font-size:0.85rem; opacity:0.8; margin-top:4px">
+            (${formatNumber(profitPerItem.toFixed(0))} per item)
+        </div>
+        <div style="font-size:0.8rem; margin-top:8px; border-top:1px solid rgba(0,0,0,0.1); padding-top:4px">
+            Cost: ${formatNumber(totalCost)} | Rev: ${formatNumber(totalRevenue)}
+        </div>
+    `;
+}
+
+function populateProfessions() {
+  if (typeof allData !== 'object') return;
+  profSelect.innerHTML = '';
+  const allProfessions = [];
+  for (const category in allData) {
+    if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
+      for (const profession in allData[category]) allProfessions.push(profession);
+    } else {
+      allProfessions.push(category);
+    }
+  }
+  allProfessions.forEach(prof => {
+    const option = document.createElement('option');
+    option.value = prof;
+    option.textContent = prof.charAt(0).toUpperCase() + prof.slice(1);
+    profSelect.appendChild(option);
+  });
+  updateItemList();
+  loadData();
+}
+
+if(profSelect) {
+    profSelect.addEventListener('change', () => { updateItemList(); saveData(); });
+}
+if(document.getElementById('currentLevelInput')) {
+    document.getElementById('currentLevelInput').addEventListener('input', () => { updateItemList(); saveData(); });
+}
+if(document.getElementById('currentXpPartial')) {
+    document.getElementById('currentXpPartial').addEventListener('input', updateItemList);
+}
+if(document.getElementById('efficiency')) {
+    document.getElementById('efficiency').addEventListener('input', saveData);
+}
+
+function tryPopulate(retries=0){
+  if(typeof allData === 'object'){ populateProfessions(); }
+  else if(retries < 20){ setTimeout(()=>tryPopulate(retries+1), 100); }
+}
+tryPopulate();
+
+
+// --- LÓGICA CALCULADORA 2 (PET) ---
 const xpLevels = [0,1,192,324,480,645,820,1005,1200,1407,1735,2082,2449,2838,3249,3684,4144,4631,5146,5691,6460,7281,8160,9101,10109,11191,12353,13603,14949,16400,18455,20675,23076,25675,28492,31549,34870,38482,42415,46702,52583,58662,64933,71390,78026,84833,91802,98923,106186,114398,123502,132734,142077,151515,161029,170602,180216,189852,199491,209115,220417,232945,246859,262341,279598,298871,320434,344603,371744,402278,441971,486789,537487,594941,660170,734360,818896,915396,1025752,1152182,1316749,1492835,1681248,1882849,2098562,2329375,2576345,2840603,3123359,3425908,3749636,4269287,4827911,5428432,6073992,6767969,7513995,8315973,9178099];
+const efMitico = [1.00,1.12,1.25,1.37,1.49,1.61,1.74,1.86,1.98,2.10,2.22,2.35,2.47,2.59,2.71,2.84,2.96,3.08,3.20,3.33,3.45,3.57,3.69,3.82,3.94,4.06,4.18,4.31,4.43,4.55,4.67,4.80,4.92,5.04,5.16,5.29,5.41,5.53,5.65,5.78,5.90,6.02,6.14,6.27,6.39,6.51,6.63,6.76,6.88,7.00,7.12,7.25,7.37,7.49,7.61,7.74,7.86,7.98,8.10,8.22,8.35,8.47,8.59,8.71,8.84,8.96,9.08,9.20,9.33,9.45,9.57,9.69,9.82,9.94,10.06,10.18,10.31,10.43,10.55,10.67,10.80,10.92,11.04,11.16,11.29,11.41,11.53,11.65,11.78,11.90,12.02,12.14,12.27,12.39,12.51,12.63,12.76,12.88,13.00];
+const efLendario = [1.00,1.11,1.22,1.34,1.45,1.56,1.67,1.79,1.90,2.01,2.12,2.24,2.35,2.46,2.57,2.69,2.80,2.91,3.02,3.14,3.25,3.36,3.47,3.59,3.70,3.81,3.92,4.04,4.15,4.26,4.37,4.49,4.60,4.71,4.82,4.94,5.05,5.16,5.27,5.39,5.50,5.61,5.72,5.84,5.95,6.06,6.17,6.29,6.40,6.51,6.63,6.74,6.85,6.96,7.08,7.19,7.30,7.41,7.53,7.64,7.75,7.86,7.98,8.09,8.20,8.31,8.43,8.54,8.65,8.76,8.88,8.99,9.10,9.21,9.33,9.44,9.55,9.66,9.78,9.89,10.00,10.11,10.23,10.34,10.45,10.56,10.68,10.79,10.90,11.01,11.13,11.24,11.35,11.46,11.58,11.69,11.80,11.91,12.00];
 
 function getLevel(xp){
   let lvl = 1;
@@ -766,18 +777,21 @@ function getLevel(xp){
   return lvl;
 }
 
-const efMitico = [1.00,1.12,1.25,1.37,1.49,1.61,1.74,1.86,1.98,2.10,2.22,2.35,2.47,2.59,2.71,2.84,2.96,3.08,3.20,3.33,3.45,3.57,3.69,3.82,3.94,4.06,4.18,4.31,4.43,4.55,4.67,4.80,4.92,5.04,5.16,5.29,5.41,5.53,5.65,5.78,5.90,6.02,6.14,6.27,6.39,6.51,6.63,6.76,6.88,7.00,7.12,7.25,7.37,7.49,7.61,7.74,7.86,7.98,8.10,8.22,8.35,8.47,8.59,8.71,8.84,8.96,9.08,9.20,9.33,9.45,9.57,9.69,9.82,9.94,10.06,10.18,10.31,10.43,10.55,10.67,10.80,10.92,11.04,11.16,11.29,11.41,11.53,11.65,11.78,11.90,12.02,12.14,12.27,12.39,12.51,12.63,12.76,12.88,13.00];
-
-const efLendario = [1.00,1.11,1.22,1.34,1.45,1.56,1.67,1.79,1.90,2.01,2.12,2.24,2.35,2.46,2.57,2.69,2.80,2.91,3.02,3.14,3.25,3.36,3.47,3.59,3.70,3.81,3.92,4.04,4.15,4.26,4.37,4.49,4.60,4.71,4.82,4.94,5.05,5.16,5.27,5.39,5.50,5.61,5.72,5.84,5.95,6.06,6.17,6.29,6.40,6.51,6.63,6.74,6.85,6.96,7.08,7.19,7.30,7.41,7.53,7.64,7.75,7.86,7.98,8.09,8.20,8.31,8.43,8.54,8.65,8.76,8.88,8.99,9.10,9.21,9.33,9.44,9.55,9.66,9.78,9.89,10.00,10.11,10.23,10.34,10.45,10.56,10.68,10.79,10.90,11.01,11.13,11.24,11.35,11.46,11.58,11.69,11.80,11.91,12.00];
-
-function calcular(){
+function calcularPet(){
   const xpStr = document.getElementById('xpAtual').value;
-  const xpAtual = Number(xpStr.replace(/\./g, '').replace(',', '.'));
+  const xpAtual = Number(xpStr.replace(/[\.,]/g, '')) || 0;
+  
   const lvlDesejado = Number(document.getElementById('lvlDesejado').value);
-
   const lvlAtual = getLevel(xpAtual);
+  
   const xpMeta = xpLevels[lvlDesejado-1] || 0;
   const faltaXP = xpMeta - xpAtual;
+  
+  if(faltaXP <= 0) {
+     document.getElementById('saidaPet').innerHTML = "You reached this level already.";
+     return;
+  }
+
   const gold = faltaXP * 3.20;
   const comidas = Math.ceil(gold / 30);
 
@@ -786,41 +800,16 @@ function calcular(){
   const efAtual = tabela[lvlAtual - 1] || 0;
   const efDesejada = tabela[lvlDesejado - 1] || 0;
 
-  document.getElementById('saida').innerHTML = `
-    Current Level: ${lvlAtual.toLocaleString('pt-BR')}<br>
-    Current Efficiency: ${efAtual.toLocaleString('pt-BR')}<br>
-    Efficiency at Desired Level: ${efDesejada.toLocaleString('pt-BR')}<br><br>
+  document.getElementById('saidaPet').innerHTML = `
+    Current Level: ${lvlAtual.toLocaleString('en-US')}<br>
+    Current Efficiency: ${efAtual.toLocaleString('en-US')}%<br>
+    Efficiency at Desired Level: ${efDesejada.toLocaleString('en-US')}%<br><br>
     
-    XP Needed to Reach Target: ${faltaXP.toLocaleString('pt-BR')}<br>
-    Required Gold: ${gold.toLocaleString('pt-BR', {minimumFractionDigits: 2})}<br>
-    Food Needed: ${comidas.toLocaleString('pt-BR')}
+    XP Needed: ${faltaXP.toLocaleString('en-US')}<br>
+    Required Gold: ${gold.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}<br>
+    Food Needed: ${comidas.toLocaleString('en-US')}
   `;
 }
 </script>
-
-</body>
-</html>
-
-</div>
-
-<script>
-let atual = 1;
-
-function trocar() {
-  if(atual === 1){
-    document.getElementById('calc1').style.display = 'none';
-    document.getElementById('calc2').style.display = 'block';
-    atual = 2;
-  } else {
-    document.getElementById('calc1').style.display = 'block';
-    document.getElementById('calc2').style.display = 'none';
-    atual = 1;
-  }
-}
-
-// inicia mostrando a primeira
-document.getElementById('calc1').style.display = 'block';
-</script>
-
 </body>
 </html>

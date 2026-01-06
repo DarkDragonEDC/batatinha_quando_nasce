@@ -1904,7 +1904,7 @@ const allData = {
                 "Base Time": "60 s",
                 "Skill Exp": 16,
                 "Vendor Price": "120 ouros",
-                "Requirement 0": "Reindorced Hide",
+                "Requirement 0": "Reinforced Hide",
                 "Requirement 0 Amount": 2,
                 "Requirement 1": "Bone Charcoal",
                 "Requirement 1 Amount": 6,
@@ -3733,7 +3733,7 @@ const allData = {
                 "Requirement 2 Amount": 5000,
                 "Requirement 3": "Null Stone",
                 "Requirement 3 Amount": 5000,
-                "Requirement 4": "Astral Clothr",
+                "Requirement 4": "Astral Cloth",
                 "Requirement 4 Amount": 80,
                 "Requirement 5": "Premium Thread",
                 "Requirement 5 Amount": 144,
@@ -4392,7 +4392,7 @@ const allData = {
                 "Requirement 0 Amount": 20,
                 "Requirement 1": "Advanced Solution",
                 "Requirement 1 Amount": 1,
-                "Requirement 2": "Reinfoced Leather Pouch Recipe",
+                "Requirement 2": "Reinforced Leather Pouch Recipe",
                 "Requirement 2 Amount": 1
             },
             {
@@ -5008,7 +5008,7 @@ const allData = {
                 "Vendor Price": "31 ouros",
                 "Requirement 0": "Coal Ore",
                 "Requirement 0 Amount": 9,
-                "Requirement 1": "Veil Core",
+                "Requirement 1": "Veilcore",
                 "Requirement 1 Amount": 10,
                 "Requirement 2": "Mutated Tissue",
                 "Requirement 2 Amount": 10,
@@ -5526,7 +5526,7 @@ const allData = {
                 "Requirement 3 Amount": 20
             },
             {
-                "Name": "Dreanvine Sap",
+                "Name": "Dreamvine Sap",
                 "Level": 40,
                 "Base Time": "50 s",
                 "Skill Exp": 11,
