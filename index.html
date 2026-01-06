@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="robots" content="noindex">
-
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚔️</text></svg>">
-
-<title>Switch Calculadoras</title>
+<title>BrazilianMafia's Calculator</title>
 <style>
   :root{
     --bg:#f3f6fb;
@@ -26,12 +24,8 @@
     -webkit-font-smoothing:antialiased;
     text-align: center;
   }
-
-  /* Controle de Abas */
   #calc1, #calc2 { display: none; }
   .active-calc { display: block !important; }
-
-  /* Botão de Troca */
   .switch-btn {
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.2);
@@ -43,8 +37,6 @@
     font-size: 0.9rem;
   }
   .switch-btn:hover { background: rgba(255,255,255,0.15); }
-
-  /* Estilos Gerais */
   .wrap{
     max-width:980px;
     margin:0 auto;
@@ -52,7 +44,6 @@
     grid-template-columns: 1fr 420px;
     gap:18px;
   }
-
   .card, .container{
     background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     border-radius:12px;
@@ -61,20 +52,14 @@
     border:1px solid rgba(255,255,255,0.03);
     text-align: center;
   }
-  
-  /* Container específico para a Calc de Pet */
   .container {
     max-width: 480px;
     margin: 0 auto;
   }
-
   h1, h2 { margin:0 0 10px 0; font-size:1.15rem; color: #e6eef8; }
   h2 { color:var(--accent); font-size: 1.5rem; margin-bottom: 20px; }
-  
   header.card p{margin:0;color:var(--muted);font-size:0.9rem}
-
   label{display:block;margin-bottom:6px;font-weight:600;font-size:0.9rem;color:#dbeafe; text-align: left;}
-  
   select,input[type="number"], input[type="text"]{
     width:100%;
     padding:10px 12px;
@@ -89,9 +74,7 @@
   }
   select option { color: var(--panel); background: var(--bg); }
   input::placeholder { color: var(--muted); opacity: 0.6; }
-
   .form-row{margin-bottom:12px}
-
   button.primary{
     width:100%;
     background:linear-gradient(180deg,var(--accent), #5b21b6);
@@ -105,7 +88,6 @@
     font-size: 1rem;
   }
   button.primary:active{transform:translateY(1px)}
-
   .results{ display:flex; flex-direction:column; gap:12px; }
   .result-block, .res{
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
@@ -118,37 +100,45 @@
   .result-block h3{margin:0 0 8px 0;font-size:1rem; color: #fff;}
   .result-block p{margin:6px 0;color:#dbeafe}
   .muted{color:var(--muted);font-size:0.9rem}
-
   .grid-two{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
   .grid-two--compact{ grid-template-columns: 0.55fr 1.45fr; gap:10px; }
-
   .credits{margin-top:8px;text-align:center;color:var(--muted);font-size:0.85rem}
   .small-muted{color:var(--muted);font-size:0.85rem}
   .pill{display:inline-block;background:var(--glass);padding:6px 10px;border-radius:999px;font-size:0.85rem}
-
-  /* CSS para Lucro */
   .profit-section {
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid rgba(255,255,255,0.1);
   }
-  .price-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    color: #dbeafe;
+  .mat-row {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-  .price-row span { text-align: left; flex: 1; }
+  .mat-name {
+    font-weight: bold;
+    color: #e6eef8;
+    margin-bottom: 4px;
+    font-size: 0.95rem;
+  }
+  .mat-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #9aa3b2;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
   .price-input {
-    width: 80px;
-    padding: 6px;
+    width: 85px !important;
+    padding: 4px 8px;
     margin-bottom: 0;
     text-align: right;
-    background: rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.15);
     color: #4ade80; 
+    border-radius: 6px;
+    font-size: 0.9rem;
   }
   .profit-result {
     font-size: 1.1rem;
@@ -160,7 +150,6 @@
   }
   .profit-win { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid #4ade80; }
   .profit-loss { background: rgba(248, 113, 113, 0.15); color: #f87171; border: 1px solid #f87171; }
-
   @media (max-width: 980px) {
     .wrap { grid-template-columns: 1fr; }
   }
@@ -225,7 +214,7 @@
         <div class="form-row" style="text-align:left; display:flex; align-items:center; gap:8px; margin-bottom:15px;">
           <input type="checkbox" id="simpleMode" style="width:auto; margin:0;">
           <label for="simpleMode" style="margin:0; font-weight:400; font-size:0.95rem; cursor:pointer;">
-            Calcular apenas o item final (Já tenho os sub-itens)
+            Calculate final item only (I have the sub-items)
           </label>
         </div>
 
@@ -281,17 +270,15 @@
       
       <div id="profitBlock" class="result-block" style="display:none">
         <h3>Profit Calculator</h3>
-        
         <div class="form-row">
-           <label style="font-size:0.85rem">Sell Price (Item Final)</label>
-           <input type="number" id="sellPrice" class="price-input" style="width:100%; text-align:center; font-size:1rem;" placeholder="Sell Price">
+           <label style="font-size:0.9rem">Sell Price (Final Item):</label>
+           <div class="mat-input-wrapper" style="justify-content:center;">
+             <input type="number" id="sellPrice" class="price-input" style="width:120px; text-align:center; font-size:1rem;" placeholder="Sell Price">
+           </div>
         </div>
-
         <button class="primary" onclick="calculateProfit()" style="padding:8px; font-size:0.9rem; margin-top:5px;">Check Profit</button>
-        
         <div id="profitResult"></div>
       </div>
-
     </aside>
   </main>
 </div>
@@ -301,16 +288,13 @@
     <h2>Pet Calculator</h2>
     <label>Current XP:</label>
     <input id="xpAtual" type="text" placeholder="Type your pet's current XP" />
-
     <label>Desired Level:</label>
     <input id="lvlDesejado" type="number" placeholder="Type the desired level" />
-
     <label>Pet Rarity:</label>
     <select id="raridade">
       <option value="mitico">Mythic</option>
       <option value="lendario">Legendary</option>
     </select>
-
     <button class="primary" onclick="calcularPet()">Calculate Pet</button>
     <div class="res" id="saidaPet"></div>
   </div>
@@ -318,7 +302,6 @@
 
 <script src="./craftsimport.js"></script>
 <script>
-// --- LÓGICA GERAL (SWITCH) ---
 let atual = 1;
 function trocar() {
   if(atual === 1){
@@ -332,7 +315,6 @@ function trocar() {
   }
 }
 
-// --- LÓGICA CALCULADORA 1 (CRAFT) ---
 const XP_PER_LEVEL = [
   0,84,192,324,480,645,820,1005,1200,1407,1735,2082,2449,2838,3249,3684,4144,4631,5146,5691,6460,7281,8160,9101,10109,11191,12353,13603,14949,16400,18455,20675,23076,25675,28492,31549,34870,38482,42415,46702,52583,58662,64933,71390,78026,84833,91802,98923,106186,114398,123502,132734,142077,151515,161029,170602,180216,189852,199491,209115,220417,232945,246859,262341,279598,298871,320434,344603,371744,402278,441971,486789,537487,594941,660170,734360,818896,915396,1025752,1152182,1316749,1492835,1681248,1882849,2098562,2329375,2576345,2840603,3123359,3425908,3749636,4269287,4827911,5428432,6073992,6767969,7513995,8315973,9178099
 ];
@@ -369,7 +351,6 @@ function filterItems() {
   }
 }
 
-// --- SALVAR E LIMPAR DADOS ---
 function saveData(){
   localStorage.setItem('savedLevel', document.getElementById('currentLevelInput').value);
   localStorage.setItem('savedEff', document.getElementById('efficiency').value);
@@ -394,7 +375,6 @@ function loadData(){
   }
 }
 
-// NOVA FUNÇÃO: Resetar tudo
 function clearData(){
   if(confirm('Are you sure you want to clear all saved prices and settings? This cannot be undone.')){
     localStorage.clear();
@@ -496,9 +476,15 @@ function parseTime(timeString){
 function formatTime(totalSeconds){
   if(totalSeconds <= 0) return '0s';
   totalSeconds = Math.round(totalSeconds);
+  const years = Math.floor(totalSeconds / 31536000); totalSeconds %= 31536000;
+  const months = Math.floor(totalSeconds / 2592000); totalSeconds %= 2592000;
+  const days = Math.floor(totalSeconds / 86400); totalSeconds %= 86400;
   const hours = Math.floor(totalSeconds / 3600); totalSeconds %= 3600;
   const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60;
   const parts = [];
+  if(years) parts.push(years + 'y');
+  if(months) parts.push(months + 'mo');
+  if(days) parts.push(days + 'd');
   if(hours) parts.push(hours + 'h');
   if(minutes) parts.push(minutes + 'm');
   if(seconds) parts.push(seconds + 's');
@@ -643,29 +629,31 @@ function calculate(){
     subList.innerHTML = subsKeys.map(k => `<p>${k}: ${formatNumber(finalDetail.subCrafts[k])}</p>`).join('');
   } else { subcraftBlock.style.display = 'none'; }
 
-  // Geração da Lista de Materiais + Inputs de Lucro
   const matsKeys = Object.keys(finalDetail.rawMaterials).sort();
   if(matsKeys.length){
     rawBlock.style.display = 'block';
     document.getElementById('profitBlock').style.display = 'block';
     document.getElementById('profitResult').innerHTML = '';
 
-    let rawHtml = '<div class="profit-section"><p class="small-muted" style="margin-bottom:10px">Unit prices (saved automatically):</p>';
+    let rawHtml = '<div class="profit-section"><p class="small-muted" style="margin-bottom:10px">Raw Material Costs:</p>';
     
     matsKeys.forEach(key => {
         const savedPrice = localStorage.getItem('price_' + key) || '';
         const qty = finalDetail.rawMaterials[key];
         
         rawHtml += `
-            <div class="price-row">
-                <span>${formatNumber(qty)}x ${key}</span>
-                <input type="number" 
-                       class="price-input mat-cost-input" 
-                       data-name="${key}" 
-                       data-qty="${qty}" 
-                       value="${savedPrice}" 
-                       placeholder="Price"
-                       onchange="saveMaterialPrice(this)">
+            <div class="mat-row">
+                <div class="mat-name">${formatNumber(qty)}x ${key}</div>
+                <div class="mat-input-wrapper">
+                    <label>Unit Cost:</label>
+                    <input type="number" 
+                           class="price-input mat-cost-input" 
+                           data-name="${key}" 
+                           data-qty="${qty}" 
+                           value="${savedPrice}" 
+                           placeholder="Price"
+                           onchange="saveMaterialPrice(this)">
+                </div>
             </div>
         `;
     });
@@ -763,8 +751,6 @@ function tryPopulate(retries=0){
 }
 tryPopulate();
 
-
-// --- LÓGICA CALCULADORA 2 (PET) ---
 const xpLevels = [0,1,192,324,480,645,820,1005,1200,1407,1735,2082,2449,2838,3249,3684,4144,4631,5146,5691,6460,7281,8160,9101,10109,11191,12353,13603,14949,16400,18455,20675,23076,25675,28492,31549,34870,38482,42415,46702,52583,58662,64933,71390,78026,84833,91802,98923,106186,114398,123502,132734,142077,151515,161029,170602,180216,189852,199491,209115,220417,232945,246859,262341,279598,298871,320434,344603,371744,402278,441971,486789,537487,594941,660170,734360,818896,915396,1025752,1152182,1316749,1492835,1681248,1882849,2098562,2329375,2576345,2840603,3123359,3425908,3749636,4269287,4827911,5428432,6073992,6767969,7513995,8315973,9178099];
 const efMitico = [1.00,1.12,1.25,1.37,1.49,1.61,1.74,1.86,1.98,2.10,2.22,2.35,2.47,2.59,2.71,2.84,2.96,3.08,3.20,3.33,3.45,3.57,3.69,3.82,3.94,4.06,4.18,4.31,4.43,4.55,4.67,4.80,4.92,5.04,5.16,5.29,5.41,5.53,5.65,5.78,5.90,6.02,6.14,6.27,6.39,6.51,6.63,6.76,6.88,7.00,7.12,7.25,7.37,7.49,7.61,7.74,7.86,7.98,8.10,8.22,8.35,8.47,8.59,8.71,8.84,8.96,9.08,9.20,9.33,9.45,9.57,9.69,9.82,9.94,10.06,10.18,10.31,10.43,10.55,10.67,10.80,10.92,11.04,11.16,11.29,11.41,11.53,11.65,11.78,11.90,12.02,12.14,12.27,12.39,12.51,12.63,12.76,12.88,13.00];
 const efLendario = [1.00,1.11,1.22,1.34,1.45,1.56,1.67,1.79,1.90,2.01,2.12,2.24,2.35,2.46,2.57,2.69,2.80,2.91,3.02,3.14,3.25,3.36,3.47,3.59,3.70,3.81,3.92,4.04,4.15,4.26,4.37,4.49,4.60,4.71,4.82,4.94,5.05,5.16,5.27,5.39,5.50,5.61,5.72,5.84,5.95,6.06,6.17,6.29,6.40,6.51,6.63,6.74,6.85,6.96,7.08,7.19,7.30,7.41,7.53,7.64,7.75,7.86,7.98,8.09,8.20,8.31,8.43,8.54,8.65,8.76,8.88,8.99,9.10,9.21,9.33,9.44,9.55,9.66,9.78,9.89,10.00,10.11,10.23,10.34,10.45,10.56,10.68,10.79,10.90,11.01,11.13,11.24,11.35,11.46,11.58,11.69,11.80,11.91,12.00];
