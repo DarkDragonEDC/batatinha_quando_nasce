@@ -2014,7 +2014,7 @@ const allData = {
                 "Requirement 2 Amount": 14
             },
             {
-                "Name": "Shadowhide Leather Bodyarmor",
+                "Name": "Shadowhide Bodyarmor",
                 "Level": 60,
                 "Base Time": "1120 s",
                 "Skill Exp": 396,
@@ -2027,7 +2027,7 @@ const allData = {
                 "Requirement 2 Amount": 28
             },
             {
-                "Name": "Shadowhide Leather Boots",
+                "Name": "Shadowhide Boots",
                 "Level": 60,
                 "Base Time": "1120 s",
                 "Skill Exp": 396,
@@ -2040,7 +2040,7 @@ const allData = {
                 "Requirement 2 Amount": 28
             },
             {
-                "Name": "Shadowhide Leather Gloves",
+                "Name": "Shadowhide Gloves",
                 "Level": 60,
                 "Base Time": "1120 s",
                 "Skill Exp": 396,
@@ -2053,7 +2053,7 @@ const allData = {
                 "Requirement 2 Amount": 28
             },
             {
-                "Name": "Shadowhide Leather Hat",
+                "Name": "Shadowhide Hat",
                 "Level": 60,
                 "Base Time": "1120 s",
                 "Skill Exp": 396,
@@ -2066,7 +2066,7 @@ const allData = {
                 "Requirement 2 Amount": 28
             },
             {
-                "Name": "Shadowhide Leather Bow",
+                "Name": "Shadowhide Bow",
                 "Level": 60,
                 "Base Time": "1120 s",
                 "Skill Exp": 396,

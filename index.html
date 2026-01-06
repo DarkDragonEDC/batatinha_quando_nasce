@@ -196,6 +196,12 @@
           </div>
         </div>
 
+        <div class="form-row" style="text-align:left; display:flex; align-items:center; gap:8px; margin-bottom:15px;">
+          <input type="checkbox" id="simpleMode" style="width:auto; margin:0;">
+          <label for="simpleMode" style="margin:0; font-weight:400; font-size:0.95rem; cursor:pointer;">
+            Calcular apenas o item final (Já tenho os sub-itens)
+          </label>
+        </div>
         <div style="display:flex;gap:10px;align-items:center">
           <button class="primary" onclick="calculate()">Calculate</button>
         </div>
@@ -427,8 +433,8 @@
         return null;
     }
     
-    // Recursive function to calculate all details and times
-    function calculateDetails(profKey, itemName, craftsNeeded, efficiencyPercent){
+
+    function calculateDetails(profKey, itemName, craftsNeeded, efficiencyPercent, onlyFinal){
         let profItems = null;
         for (const category in allData) {
             if (typeof allData[category] === 'object' && !Array.isArray(allData[category])) {
@@ -455,7 +461,6 @@
         let totalTime = 0;
         let totalXp = 0;
 
-        // Check if the item gives XP to the main profession
         const itemProf = getItemProfession(itemName);
         if (itemProf === profKey) {
             const baseTime = parseTime(item['Base Time']);
@@ -469,21 +474,19 @@
         for(let i = 0; i <= 10; i++){
           const reqName = item[`Requirement ${i}`];
           const reqAmount = Number(item[`Requirement ${i} Amount`]) || 0;
+          
           if(reqName && reqAmount){
             const subProfKey = getItemProfession(reqName);
-            
-            if(subProfKey && !gatheringProfessions.includes(subProfKey)){
-              // This is a craftable item, so we add it to sub-crafts
+
+            if(subProfKey && !gatheringProfessions.includes(subProfKey) && !onlyFinal){
+              
               subCrafts[reqName] = (subCrafts[reqName] || 0) + reqAmount * craftsNeeded;
 
-              // Recursive call
-              const subResult = calculateDetails(subProfKey, reqName, reqAmount * craftsNeeded, efficiencyPercent);
+              const subResult = calculateDetails(subProfKey, reqName, reqAmount * craftsNeeded, efficiencyPercent, false);
               
-              // Only accumulate time and XP if it's from the SAME profession
               if (subProfKey === profKey) {
                   totalTime += subResult.totalTime;
                   totalXp += subResult.totalXp;
-                  // Merge crafting times
                   for (const t in subResult.craftingTimes) {
                       craftingTimes[t] = (craftingTimes[t] || 0) + subResult.craftingTimes[t];
                   }
@@ -493,7 +496,6 @@
               for(const s in subResult.subCrafts) subCrafts[s] = (subCrafts[s] || 0) + subResult.subCrafts[s];
 
             } else {
-              // This is a raw material
               rawMaterials[reqName] = (rawMaterials[reqName] || 0) + reqAmount * craftsNeeded;
             }
           }
@@ -502,14 +504,17 @@
     }
 
 
-    function calculate(){
-      const currentXp = getCurrentTotalXp();
+function calculate(){
+      // Lógica de XP que você já tinha
+      const currentXp = getCurrentTotalXp(); 
       const targetLvl = parseInt(document.getElementById('targetLvl').value) || 1;
-
-
+      
       const efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
       const profKey = profSelect.value;
       const itemName = itemSelect.value;
+
+      // NOVA LINHA: Ler o estado do checkbox
+      const isSimpleMode = document.getElementById('simpleMode').checked;
       
       let profItems = null;
       for (const category in allData) {
@@ -548,22 +553,22 @@
         return;
       }
       
-      // Calculate the total XP for one full craft, including sub-items of the same profession
-      const detailsForOneCraft = calculateDetails(profKey, itemName, 1, efficiency);
+      // ALTERAÇÃO AQUI: Passamos 'isSimpleMode' para calcular o XP de UM item
+      // Se estiver marcado, ele só vai considerar o XP do item final, sem somar os sub-itens
+      const detailsForOneCraft = calculateDetails(profKey, itemName, 1, efficiency, isSimpleMode);
       const totalXpPerCraft = detailsForOneCraft.totalXp;
       
       if (totalXpPerCraft <= 0) {
-        resultsSummary.textContent = 'XP per item is zero — check item data.';
+        resultsSummary.textContent = 'XP per item is zero (or sub-items excluded) — check item data.';
         return;
       }
       
       const xpNeeded = targetXp - currentXp;
       
-      // Calculate the number of crafts needed based on the total XP per craft
       const craftsNeeded = Math.ceil(xpNeeded / totalXpPerCraft);
 
-      // Now, use this number of crafts to calculate everything else
-      const finalDetail = calculateDetails(profKey, itemName, craftsNeeded, efficiency);
+      // ALTERAÇÃO AQUI: Passamos 'isSimpleMode' para o cálculo total também
+      const finalDetail = calculateDetails(profKey, itemName, craftsNeeded, efficiency, isSimpleMode);
 
       const totalTimeFinal = finalDetail.totalTime;
       const finalRaw = finalDetail.rawMaterials;
@@ -585,7 +590,6 @@
           timeItemsHtml += `<p><strong>${item}:</strong> ${formatTime(finalCraftingTimes[item])}</p>`;
       });
       timeList.innerHTML = `${timeItemsHtml}<p><strong>Total estimated time:</strong> ${formatTime(totalTimeFinal)}</p>`;
-
 
       const subsKeys = Object.keys(finalSubs).sort();
       if(subsKeys.length){
