@@ -2066,7 +2066,7 @@ const allData = {
                 "Requirement 2 Amount": 28
             },
             {
-                "Name": "Shadowhide Bow",
+                "Name": "Shadowhide Leather Bow",
                 "Level": 60,
                 "Base Time": "1120 s",
                 "Skill Exp": 396,
@@ -2120,7 +2120,7 @@ const allData = {
                 "Requirement 2 Amount": 16
             },
             {
-                "Name": "Dragonhide Leather Bodyarmor",
+                "Name": "Dragonhide Bodyarmor",
                 "Level": 70,
                 "Base Time": "1280 s",
                 "Skill Exp": 522,
@@ -2133,7 +2133,7 @@ const allData = {
                 "Requirement 2 Amount": 32
             },
             {
-                "Name": "Dragonhide Leather Boots",
+                "Name": "Dragonhide Boots",
                 "Level": 70,
                 "Base Time": "1280 s",
                 "Skill Exp": 522,
@@ -2146,7 +2146,7 @@ const allData = {
                 "Requirement 2 Amount": 32
             },
             {
-                "Name": "Dragonhide Leather Gloves",
+                "Name": "Dragonhide Gloves",
                 "Level": 70,
                 "Base Time": "1280 s",
                 "Skill Exp": 522,
@@ -2159,7 +2159,7 @@ const allData = {
                 "Requirement 2 Amount": 32
             },
             {
-                "Name": "Dragonhide Leather Hat",
+                "Name": "Dragonhide Hat",
                 "Level": 70,
                 "Base Time": "1280 s",
                 "Skill Exp": 522,
@@ -2211,7 +2211,7 @@ const allData = {
                 "Requirement 2 Amount": 18
             },
             {
-                "Name": "Abyssal Leather Bodyarmor",
+                "Name": "Abyssal Bodyarmor",
                 "Level": 80,
                 "Base Time": "1440 s",
                 "Skill Exp": 667,
@@ -2224,7 +2224,7 @@ const allData = {
                 "Requirement 2 Amount": 36
             },
             {
-                "Name": "Abyssal Leather Boots",
+                "Name": "Abyssal Boots",
                 "Level": 80,
                 "Base Time": "1440 s",
                 "Skill Exp": 667,
@@ -2237,7 +2237,7 @@ const allData = {
                 "Requirement 2 Amount": 36
             },
             {
-                "Name": "Abyssal Leather Gloves",
+                "Name": "Abyssal Gloves",
                 "Level": 80,
                 "Base Time": "1440 s",
                 "Skill Exp": 667,
@@ -2250,7 +2250,7 @@ const allData = {
                 "Requirement 2 Amount": 36
             },
             {
-                "Name": "Dragonhide Leather Hat",
+                "Name": "Abyssal Hat",
                 "Level": 80,
                 "Base Time": "1440 s",
                 "Skill Exp": 667,
